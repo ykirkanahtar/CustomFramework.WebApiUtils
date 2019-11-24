@@ -77,6 +77,12 @@ namespace CustomFramework.WebApiUtils.Utils
             throw new AccessViolationException(additionalInfo.RemoveManagerString());
         }
 
+        public static void CheckEnumValue(this Enum enumValue, Type enumType, string additionalInfo)
+        {
+            if (!Enum.IsDefined(enumType, enumValue))
+                throw new ArgumentException(String.Format("Invalid Enum {0}", additionalInfo));
+        }
+
         public static bool GenericTypeIsNullOrEmpty<T>(this T value)
         {
             return value.GetGenericTypeCount() <= 0;
