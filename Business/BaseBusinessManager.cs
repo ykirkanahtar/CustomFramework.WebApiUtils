@@ -45,6 +45,22 @@ namespace CustomFramework.WebApiUtils.Business
             }
         }
 
+        protected async Task<T> CommonOperationAsync<T>(Func<Task<T>> func, BusinessUtilMethod businessUtilMethod, string additionalInfo)
+        {
+            try
+            {
+                var result = await func.Invoke();
+                BusinessUtil.Execute(businessUtilMethod, result, additionalInfo);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(0, ex, $"{DefaultResponseMessages.AnErrorHasOccured} - {ex.Message}");
+                throw;
+            }
+        }
+
         protected async Task<T> CommonOperationAsync<T>(Func<Task<T>> func, BusinessBaseRequest businessBaseRequest, BusinessUtilMethod businessUtilMethod, string additionalInfo)
         {
             try
@@ -106,7 +122,7 @@ namespace CustomFramework.WebApiUtils.Business
 
         protected int GetUserId()
         {
-            if(_userId == 0) throw new Exception($"UserIdNullError");
+            if (_userId == 0) throw new Exception($"UserIdNullError");
             return _userId;
         }
     }
