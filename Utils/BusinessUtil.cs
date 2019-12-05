@@ -46,9 +46,9 @@ namespace CustomFramework.WebApiUtils.Utils
             throw new DuplicateNameException(additionalInfo.RemoveManagerString());
         }
 
-        public static void CheckRecordIsExist<T>(this T result, string additionalInfo)
+        public static T CheckRecordIsExist<T>(this T result, string additionalInfo)
         {
-            if (!result.GenericTypeIsNullOrEmpty()) return;
+            if (!result.GenericTypeIsNullOrEmpty()) return result;
             throw new KeyNotFoundException(additionalInfo.RemoveManagerString());
         }
 
