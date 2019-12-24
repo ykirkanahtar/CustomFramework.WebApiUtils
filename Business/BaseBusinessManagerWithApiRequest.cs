@@ -20,5 +20,11 @@ namespace CustomFramework.WebApiUtils.Business
         {
             return _apiRequestAccessor.UserId;
         }
+
+        protected int GetNullableLoggedInUserId(int returnValue)
+        {
+            if(_apiRequestAccessor == null) return returnValue;
+            return _apiRequestAccessor.UserId;
+        }
     }
 }
