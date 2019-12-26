@@ -46,6 +46,17 @@ namespace CustomFramework.WebApiUtils.Utils
             throw new DuplicateNameException(additionalInfo.RemoveManagerString());
         }
 
+        public static void CheckDuplicateInList<T, TKey>(this ICollection<T> list, Func<T, TKey> checkingField, string additionalInfo)
+        {
+            if (list != null)
+            {
+                var duplicates = list.GroupBy(checkingField)
+                                     .Where(g => g.Count() > 1)
+                                     .Select(g => g.Key);
+                if (duplicates.Count() > 0) throw new DuplicateNameException(additionalInfo);
+            }
+        }
+
         public static T CheckRecordIsExist<T>(this T result, string additionalInfo)
         {
             if (!result.GenericTypeIsNullOrEmpty()) return result;
